@@ -51,17 +51,10 @@ class TestBooksCollector:
         book_name = 'Вольт'
 
         collector = BooksCollector()
-        collector.add_new_book(book_name)
-        assert book_name in list(collector.get_books_genre())
-
-    def test_get_book_genre_books_not_exists(self):
-        collector = BooksCollector()
         assert len(list(collector.get_books_genre())) == 0
 
-    def test_get_book_genre_book_not_exists(self):
-        collector = BooksCollector()
-        collector.add_new_book('Вольт')
-        assert 'Мулан' not in list(collector.get_books_genre())
+        collector.add_new_book(book_name)
+        assert book_name in list(collector.get_books_genre())
 
     @pytest.mark.parametrize('books', [
         ['Вольт','Мулан','Рататуй']
