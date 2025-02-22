@@ -1,3 +1,4 @@
+import pytest
 from main import BooksCollector
 
 # класс TestBooksCollector объединяет набор тестов, которыми мы покрываем наше приложение BooksCollector
@@ -62,14 +63,10 @@ class TestBooksCollector:
         collector.add_new_book('Вольт')
         assert 'Мулан' not in list(collector.get_books_genre())
 
-
-
-    def test_get_books_with_specific_genre_add_three_books(self):
-        books = [
-            'Вольт',
-            'Мулан',
-            'Рататуй'
-        ]
+    @pytest.mark.parametrize('books', [
+        ['Вольт','Мулан','Рататуй']
+    ])
+    def test_get_books_with_specific_genre_add_three_books(self, books):
         collector = BooksCollector()
         for name in books:
             collector.add_new_book(name)
@@ -86,14 +83,30 @@ class TestBooksCollector:
         assert len(collector.get_books_genre()) == 1
         assert book_name in collector.get_books_genre()
 
-    def test_get_books_for_children(self):
-        books = {
+    @pytest.mark.parametrize('books', [
+        {
             'Хроники Нарнии': 'Фантастика',
             'Лес': 'Ужасы',
             'Отель убийц': 'Детективы',
             'Мулан': 'Мультфильмы',
             'Кешка в центре внимания': 'Комедии'
-        }
+        },
+        {
+            'Хроники Нарнии': 'Ужасы',
+            'Лес': 'Ужасы',
+            'Отель убийц': 'Ужасы',
+            'Мулан': 'Ужасы',
+            'Кешка в центре внимания': 'Ужасы'
+        },
+        {
+            'Хроники Нарнии': 'Комедии',
+            'Лес': 'Комедии',
+            'Отель убийц': 'Комедии',
+            'Мулан': 'Комедии',
+            'Кешка в центре внимания': 'Комедии'
+        },
+    ])
+    def test_get_books_for_children(self, books):
         books_for_children = []
         for name, genre in books.items():
             if genre in ['Фантастика', 'Мультфильмы', 'Комедии']:
