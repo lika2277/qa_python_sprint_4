@@ -76,35 +76,30 @@ class TestBooksCollector:
         assert len(collector.get_books_genre()) == 1
         assert book_name in collector.get_books_genre()
 
-    @pytest.mark.parametrize('books', [
-        {
+    @pytest.mark.parametrize('books, books_for_children', [
+        ({
             'Хроники Нарнии': 'Фантастика',
             'Лес': 'Ужасы',
             'Отель убийц': 'Детективы',
             'Мулан': 'Мультфильмы',
             'Кешка в центре внимания': 'Комедии'
-        },
-        {
+        }, ['Хроники Нарнии', 'Мулан', 'Кешка в центре внимания']),
+        ({
             'Хроники Нарнии': 'Ужасы',
             'Лес': 'Ужасы',
             'Отель убийц': 'Ужасы',
             'Мулан': 'Ужасы',
             'Кешка в центре внимания': 'Ужасы'
-        },
-        {
+        }, []),
+        ({
             'Хроники Нарнии': 'Комедии',
             'Лес': 'Комедии',
             'Отель убийц': 'Комедии',
             'Мулан': 'Комедии',
             'Кешка в центре внимания': 'Комедии'
-        },
+        }, ['Хроники Нарнии', 'Лес', 'Отель убийц', 'Мулан', 'Кешка в центре внимания'])
     ])
-    def test_get_books_for_children(self, books):
-        books_for_children = []
-        for name, genre in books.items():
-            if genre in ['Фантастика', 'Мультфильмы', 'Комедии']:
-                books_for_children.append(name)
-
+    def test_get_books_for_children(self, books, books_for_children):
         collector = BooksCollector()
         for name, genre in books.items():
             collector.add_new_book(name)
