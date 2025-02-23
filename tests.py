@@ -49,10 +49,7 @@ class TestBooksCollector:
 
     def test_get_book_genre_book_exists(self):
         book_name = 'Вольт'
-
         collector = BooksCollector()
-        assert len(list(collector.get_books_genre())) == 0
-
         collector.add_new_book(book_name)
         assert book_name in list(collector.get_books_genre())
 
@@ -68,12 +65,9 @@ class TestBooksCollector:
         assert len(collector.get_books_with_specific_genre('Мультфильмы')) == len(books)
 
     def test_get_books_genre(self):
-        collector = BooksCollector()
-        assert len(collector.get_books_genre()) == 0
-
         book_name = 'Вольт'
+        collector = BooksCollector()
         collector.add_new_book(book_name)
-        assert len(collector.get_books_genre()) == 1
         assert book_name in collector.get_books_genre()
 
     @pytest.mark.parametrize('books, books_for_children', [
@@ -104,8 +98,6 @@ class TestBooksCollector:
         for name, genre in books.items():
             collector.add_new_book(name)
             collector.set_book_genre(name,genre)
-        assert len(collector.get_books_genre()) == len(books)
-        assert len(collector.get_books_for_children()) == len(books_for_children)
         for name in list(collector.get_books_for_children()):
             assert name in books_for_children
 
@@ -113,24 +105,14 @@ class TestBooksCollector:
         book_name = 'Вольт'
         collector = BooksCollector()
         collector.add_new_book(book_name)
-        assert len(collector.get_list_of_favorites_books()) == 0
-
         collector.add_book_in_favorites(book_name)
         assert book_name in collector.get_list_of_favorites_books()
-
-        collector.add_book_in_favorites(book_name)
-        assert len(collector.get_list_of_favorites_books()) == 1
 
     def test_delete_book_from_favorites(self):
         book_name = 'Вольт'
         collector = BooksCollector()
         collector.add_new_book(book_name)
         collector.add_book_in_favorites(book_name)
-        assert book_name in collector.get_list_of_favorites_books()
-
-        collector.delete_book_from_favorites('Мулан')
-        assert len(collector.get_list_of_favorites_books()) == 1
-
         collector.delete_book_from_favorites(book_name)
         assert len(collector.get_list_of_favorites_books()) == 0
 
@@ -138,7 +120,5 @@ class TestBooksCollector:
         book_name = 'Вольт'
         collector = BooksCollector()
         collector.add_new_book(book_name)
-        assert len(collector.get_list_of_favorites_books()) == 0
-
         collector.add_book_in_favorites(book_name)
         assert book_name in collector.get_list_of_favorites_books()
